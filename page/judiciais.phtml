@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Relat&oacute;rio</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="relatorio">
+            <?php 
+
+            
+                  echo "<table border=1 align=center cellspacing=0 spanspacing=0 class=\"tabela\">";
+                  echo "<tr><th>N&uacute;mero CNJ Antigo</th><th>PARTE CONTR&Aacute;RIA</th><th>Segurado</th><th>SINISTRO</th><th>Valor</th><th>Honor&aacute;rios</th><th>VALOR ADMINISTRATIVO</th><tr>";
+           //// Definindo Quanto repete o Processo Judicial - Key = Proc_Judicial ////       
+                  $proc_repetido=array();
+                  $processo_old=null;
+                  $vlAdmSomado=0;
+                  $gravei=0;
+                  foreach($judis as $item){
+                      //print_r($item);die;
+                      if($item->getNumero_CNJ_Antigo_con()==$processo_old){
+                          if($gravei!=1){
+                            $quantasRep=2;
+                          }
+                          //if($vlAdmSomado==0){
+                              //$vlAdmSomado=$vlInicial;
+                          //}
+                          $vlAdmSomado=$vlAdmSomado + $item->getCORRECAO_TR_h();
+                          $proc_repetido[$item->getNumero_CNJ_Antigo_con()]=$quantasRep;
+                          array_push($proc_repetido, $vlAdmSomado);
+                          //echo $vlAdmSomado." - ".$item->getCORRECAO_TR_h();
+                          //echo "<br>";
+                          //echo $item->getNumero_CNJ_Antigo_con()." - ".$vlAdmSomado;echo "<br>";
+                          $gravei=1;
+                      }else{
+                          $quantasRep=1;
+                          $vlAdmSomado=$item->getCORRECAO_TR_h();
+                      }
+                      if($gravei==1){
+                          $quantasRep++;
+                      }
+                          $processo_old=$item->getNumero_CNJ_Antigo_con();
+                          //$vlInicial=$item->getCORRECAO_TR_h();
+                      //echo "<h1>".$item->getNumero_CNJ_Antigo_con()." -> $vlAdmSomado</h1>";
+                  }
+                  //echo "<pre>";
+                  //print_r($proc_repetido);die;
+            //// fim repetição ////      
+                   
+                  $Segurado_con_old=null;
+                  $Numero_CNJ_old=null;
+                  $total_adm=0;
+                  $contador=0;
+                  $passeiaqui=0;
+                  $processo_old=null;
+                  $javi=0;
+                  //$judicial=$provavel->getNumero_CNJ_Antigo_con();
+                foreach($judis as $provavel){
+                    //print_r($judis);die;
+                    //if(in_array($provavel->getNumero_CNJ_Antigo_con(),$proc_repetido)){ 
+                     //if('0019952-70.2015.8.08.0347' == $provavel->getNumero_CNJ_Antigo_con()){
+                      /*
+                        if (in_array($provavel->getNumero_CNJ_Antigo_con(),$proc_repetido)){ 
+                            $Numero_CNJ=$provavel->getNumero_CNJ_Antigo_con();
+                            $Natureza_con=$provavel->getNatureza_con();
+                            $UF_con=$provavel->getUF_con();
+                            $Parte_contraria_con=$provavel->getParte_contraria_con();
+                            $Segurado_con=$provavel->getSegurado_con();
+                            $Valor_con=$provavel->getValor_con();
+                            $Honorarios_con=$provavel->getHonorarios_con();
+                            $SINISTRO_lev=$provavel->getSINISTRO_lev();
+                            $SEGURADO_lev=$provavel->getSEGURADO_lev();
+                            $PARTE_CONTRARIA_lev=$provavel->getPARTE_CONTRARIA_lev();
+                            $VALOR_PEDIDO_lev=$provavel->getVALOR_PEDIDO_lev();
+                            $HONORARIOS_lev=$provavel->getHONORARIOS_lev();
+                            $PROVAVEL_lev=$provavel->getPROVAVEL_lev();
+                            $DIGITADOR_lev=$provavel->getDIGITADOR_lev();
+                            $APOLICE_h=$provavel->getAPOLICE_h();
+                            $ENDOSSO_h=$provavel->getENDOSSO_h();
+                            $SINISTRO_h=$provavel->getSINISTRO_h();
+                            $DT_AVISO_h=$provavel->getDT_AVISO_h();
+                            $TITULAR_h=$provavel->getTITULAR_h();
+                            $CPF_h=$provavel->getCPF_h();
+                            $IMPORTANCIA_SEGURADA_h=$provavel->getIMPORTANCIA_SEGURADA_h();
+                            $CORRECAO_IGPM_h=$provavel->getCORRECAO_IGPM_h();
+                            $CORRECAO_TR_h=$provavel->getCORRECAO_TR_h();
+                            
+                            
+                            $total_adm=$total_adm+$provavel->getVALOR_ADMINISTRATIVO_lev();
+                            $contador = 1;
+                        }else{
+                            //echo "<h1>estou aqui</h1>";die;
+                            echo "<tr><td bgcolor=red>";
+                            echo $Numero_CNJ;
+                            echo "</td><td>";
+                            echo $Natureza_con;
+                            echo "</td><td>";
+                            echo $UF_con;
+                            echo "</td><td>";
+                            echo $Parte_contraria_con;
+                            echo "</td><td>";
+                            echo $Segurado_con;
+                            echo "</td><td>";
+                            echo $Valor_con;
+                            echo "</td><td>";
+                            echo $Honorarios_con;
+                            echo "</td><td>";
+                            echo $SINISTRO_lev;
+                            echo "</td><td>";
+                            echo $SEGURADO_lev;
+                            echo "</td><td>";
+                            echo $PARTE_CONTRARIA_lev;
+                            echo "</td><td>";
+                            echo $VALOR_PEDIDO_lev;
+                            echo "</td><td>";
+                            echo $total_adm;
+                            echo "</td><td>";
+                            echo $HONORARIOS_lev;
+                            echo "</td><td>";
+                            echo $PROVAVEL_lev;
+                            echo "</td><td>";
+                            echo $DIGITADOR_lev;
+                            echo "</td><td>";
+                            echo $APOLICE_h;
+                            echo "</td><td>";
+                            echo $ENDOSSO_h;
+                            echo "</td><td>";
+                            echo $SINISTRO_h;
+                            echo "</td><td>";
+                            echo $DT_AVISO_h;
+                            echo "</td><td>";
+                            echo $TITULAR_h;
+                            echo "</td><td>";
+                            echo $CPF_h;
+                            echo "</td><td>";
+                            echo $IMPORTANCIA_SEGURADA_h;
+                            echo "</td><td>";
+                            echo $CORRECAO_IGPM_h;
+                            echo "</td><td>";
+                            echo $CORRECAO_TR_h;
+                            echo "</td>"; 
+                            $Segurado_con_old=$provavel->getSegurado_con();
+                            $contador = 2;
+                        }
+                       * 
+                       */
+                    //}else{  
+                    //print_r(count(in_array('0002341-89.2014.8.26.0654',$proc_repetido)));die;
+                     //$quantasRep=1;
+                 /*
+                     if($javi!=1){
+                         foreach($proc_repetido as $repeticao){
+                             //echo "<br><br><br>";
+                             //print_r($repeticao);die;
+                             //echo "<br><br>";
+                             //$repeticaoOld=$repeticao;
+                             if($provavel->getNumero_CNJ_Antigo_con() == $repeticao){
+                                 $quantasRep++;
+                                 //echo $provavel->getNumero_CNJ_Antigo_con()." - ";
+                             }
+                             $javi=1;
+                                 //array_push($repPro, $repeticao.' => '.$quantasRep);
+                         }
+                     }
+                     */
+                     if(in_array($provavel->getNumero_CNJ_Antigo_con(), $proc_repetido)){
+                         if($passeiaqui == 1 && $processo_old == $provavel->getNumero_CNJ_Antigo_con()){
+                            echo "<tr><td bgcolor=red>";
+                            //$provavel->setValor_con(0);
+                            //$provavel->setHonorarios_con(0);
+                            //$provavel->setCORRECAO_TR_h($vlAdmOld+$provavel->getCORRECAO_TR_h());
+                         }else{
+                             
+                             /////
+                             
+                           //$repPro=array();
+                             //$repPro=array("0004251-22.2014.8.25.0027" => $quantasRep);
+                             //echo "<h1>".$quantasRep."</h1>";
+                             //print_r(@$repPro);
+                             //die;                          
+                             ////
+                             
+                            //$provavel->setValor_con(0);
+                            //$provavel->setHonorarios_con(0);
+                            echo "<tr><td>";
+                            $vlAdmOld=$provavel->getCORRECAO_TR_h();
+                            $quantasMenos=$quantasRep - 1;
+                            //echo "<h1>$quantasMenos</h1>";
+                            if($quantasMenos==0){
+                                $passeiaqui=1;
+                            }
+                            $processo_old=$provavel->getNumero_CNJ_Antigo_con();
+                         }
+                     }else{
+                        echo "<tr><td>"; 
+                     }      
+                     echo $provavel->getNumero_CNJ_Antigo_con();
+                     //echo "</td><td>";
+                     //echo $provavel->getNatureza_con();
+                     //echo "</td><td>";
+                     //echo $provavel->getUF_con();
+                     echo "</td><td>";
+                     echo $provavel->getParte_contraria_con();
+                     if($Segurado_con_old==$provavel->getSegurado_con()&&$Segurado_con_old!=null){
+                        echo "</td><td bgcolor=yellow>";
+                     }else{
+                        echo "</td><td>"; 
+                     }
+                     echo $provavel->getSegurado_con();
+                     echo "</td><td>";
+                     echo $provavel->getSINISTRO_lev();
+                     echo "</td><td>";
+                     echo $provavel->getValor_con();
+                     echo "</td><td>";
+                     echo $provavel->getHonorarios_con();
+                     //echo "</td><td>";
+                     //echo $provavel->getSEGURADO_lev();
+                     //echo "</td><td>";
+                     //echo $provavel->getPARTE_CONTRARIA_lev();
+                     //echo "</td><td>";
+                     //echo $provavel->getVALOR_PEDIDO_lev();
+                     //echo "</td><td>";
+                     //echo $provavel->getVALOR_ADMINISTRATIVO_lev();
+                     //echo "</td><td>";
+                     //echo $provavel->getHONORARIOS_lev();
+                     //echo "</td><td>";
+                     //echo $provavel->getPROVAVEL_lev();
+                     //echo "</td><td>";
+                     //echo $provavel->getDIGITADOR_lev();
+                     //echo "</td><td>";
+                     //echo $provavel->getAPOLICE_h();
+                     //echo "</td><td>";
+                     //echo $provavel->getENDOSSO_h();
+                     //echo "</td><td>";
+                     //echo $provavel->getSINISTRO_h();
+                     //echo "</td><td>";
+                     //echo $provavel->getDT_AVISO_h();
+                     //echo "</td><td>";
+                     //echo $provavel->getTITULAR_h();
+                     //echo "</td><td>";
+                     //echo $provavel->getCPF_h();
+                     //echo "</td><td>";
+                     //echo $provavel->getIMPORTANCIA_SEGURADA_h();
+                     //echo "</td><td>";
+                     //echo $provavel->getCORRECAO_IGPM_h();
+                     echo "</td><td>";
+                     //echo "<h1>".$provavel->getCORRECAO_TR_h()."</h1>";
+                     if($provavel->getValor_con() == null){
+                         $provavel->setCORRECAO_TR_h(0);
+                         //echo "estou aqui";die;
+                     }
+                     echo $provavel->getCORRECAO_TR_h();
+                     echo "</td>"; 
+                     $Segurado_con_old=$provavel->getSegurado_con();
+                     $Numero_CNJ_old=$provavel->getNumero_CNJ_Antigo_con();
+                   // }
+                     //$judicial_old=$provavel->getNumero_CNJ_Antigo_con();
+                }
+                echo "</tr></table>";
+                //echo "<pre>";
+                //print_r($proc_repetido);
+                //echo "</pre>";
+            ?>
+        </div>
+    </body>
+</html>
