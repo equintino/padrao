@@ -34,7 +34,7 @@ final class Index {
             header('HTTP/1.0 404 Not Found');
             $this->runPage('404', $extra);
         } else {
-            // TODO log exception
+            // log exception
             header('HTTP/1.1 500 Internal Server Error');
             $this->runPage('500', $extra);
         }
@@ -137,6 +137,4 @@ $index = new Index();
 $index->init();
 // run application!
 $index->run();
-
-
 ?>
