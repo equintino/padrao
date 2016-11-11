@@ -41,6 +41,7 @@ final class Index {
             'OdbcDao' => '../dao/OdbcDao.php',
             'OracleDao' => '../dao/OracleDao.php',
             'JudiDao' => '../dao/JudiDao.php',
+            'PaiDao' => '../dao/PaiDao.php',
             'TodoMapper' => '../mapping/TodoMapper.php',
             'OdbcMapper' => '../mapping/OdbcMapper.php',
             'OracleMapper' => '../mapping/OracleMapper.php',
